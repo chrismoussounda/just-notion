@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 
 import { Item } from './item';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface DocumentListProps {
   parentDocumentId?: Id<'documents'>;
@@ -19,6 +20,7 @@ export const DocumentList = ({ parentDocumentId, level = 0 }: DocumentListProps)
   const params = useParams();
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const { t } = useTranslation();
 
   const onExpand = (documentId: string) => {
     setExpanded((prevExpanded) => ({
@@ -61,7 +63,7 @@ export const DocumentList = ({ parentDocumentId, level = 0 }: DocumentListProps)
           level === 0 && 'hidden'
         )}
       >
-        No pages inside
+        {t('noPage')}
       </p>
       {documents.map((document) => (
         <div key={document._id}>

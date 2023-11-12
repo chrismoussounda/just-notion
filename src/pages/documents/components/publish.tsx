@@ -7,6 +7,7 @@ import { Doc } from '@/../convex/_generated/dataModel';
 import { PopoverTrigger, Popover, PopoverContent } from '@/components/ui/popover';
 import { api } from '@/../convex/_generated/api';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 
 interface PublishProps {
   initialData: Doc<'documents'>;
@@ -14,6 +15,7 @@ interface PublishProps {
 
 export const Publish = ({ initialData }: PublishProps) => {
   const update = useMutation(api.documents.update);
+  const { t } = useTranslation();
 
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,11 +29,10 @@ export const Publish = ({ initialData }: PublishProps) => {
       id: initialData._id,
       isPublished: true,
     }).finally(() => setIsSubmitting(false));
-
     toast.promise(promise, {
-      loading: 'Publishing...',
-      success: 'Note published',
-      error: 'Failed to publish note.',
+      loading: t('publishing'),
+      success: t('notePublished'),
+      error: t('failedPublishNote.'),
     });
   };
 
@@ -63,7 +64,7 @@ export const Publish = ({ initialData }: PublishProps) => {
     <Popover>
       <PopoverTrigger asChild>
         <Button size="sm" variant="ghost">
-          Publish
+          {t('publish')}
           {initialData.isPublished && <Globe className="text-sky-500 w-4 h-4 ml-2" />}
         </Button>
       </PopoverTrigger>
@@ -72,7 +73,7 @@ export const Publish = ({ initialData }: PublishProps) => {
           <div className="space-y-4">
             <div className="flex items-center gap-x-2">
               <Globe className="text-sky-500 animate-pulse h-4 w-4" />
-              <p className="text-xs font-medium text-sky-500">This note is live on web.</p>
+              <p className="text-xs font-medium text-sky-500">{t('noteOnTheWeb')}</p>
             </div>
             <div className="flex items-center">
               <input
@@ -90,21 +91,21 @@ export const Publish = ({ initialData }: PublishProps) => {
               disabled={isSubmitting}
               onClick={onUnpublish}
             >
-              Unpublish
+              {t('unpublish')}
             </Button>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center">
             <Globe className="h-8 w-8 text-muted-foreground mb-2" />
-            <p className="text-sm font-medium mb-2">Publish this note</p>
-            <span className="text-xs text-muted-foreground mb-4">Share your work with others.</span>
+            <p className="text-sm font-medium mb-2">{t('publishNote')}</p>
+            <span className="text-xs text-muted-foreground mb-4">{t('shareWork')}</span>
             <Button
               disabled={isSubmitting}
               onClick={onPublish}
               className="w-full text-xs"
               size="sm"
             >
-              Publish
+              {t('publish')}
             </Button>
           </div>
         )}

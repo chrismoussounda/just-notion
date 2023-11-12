@@ -6,6 +6,7 @@ import { api } from '@/../convex/_generated/api';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTranslation } from 'react-i18next';
 
 interface TitleProps {
   initialData: Doc<'documents'>;
@@ -14,8 +15,9 @@ interface TitleProps {
 export const Title = ({ initialData }: TitleProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const update = useMutation(api.documents.update);
+  const { t } = useTranslation();
 
-  const [title, setTitle] = useState(initialData.title || 'Untitled');
+  const [title, setTitle] = useState(initialData.title || t('untitled'));
   const [isEditing, setIsEditing] = useState(false);
 
   const enableInput = () => {
@@ -35,7 +37,7 @@ export const Title = ({ initialData }: TitleProps) => {
     setTitle(event.target.value);
     update({
       id: initialData._id,
-      title: event.target.value || 'Untitled',
+      title: event.target.value || t('untitled'),
     });
   };
 

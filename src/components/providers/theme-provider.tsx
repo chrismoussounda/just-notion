@@ -23,7 +23,7 @@ export const ThemeProviderContext = createContext<ThemeProviderState>(initialSta
 function ThemeProvider({
   children,
   defaultTheme = 'system',
-  storageKey = 'vite-ui-theme',
+  storageKey = 'just-notion-theme',
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(

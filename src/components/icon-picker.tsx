@@ -11,14 +11,14 @@ interface IconPickerProps {
 
 export const IconPicker = ({ onChange, children, asChild }: IconPickerProps) => {
   const { theme: thm } = useTheme();
-  const currentTheme = (thm || 'light') as keyof typeof themeMap;
 
   const themeMap = {
     dark: Theme.DARK,
     light: Theme.LIGHT,
+    system: Theme.AUTO,
   };
 
-  const theme = themeMap[currentTheme];
+  const theme = themeMap[thm];
 
   return (
     <Popover>

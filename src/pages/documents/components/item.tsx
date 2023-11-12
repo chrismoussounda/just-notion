@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface ItemProps {
   id?: Id<'documents'>;
@@ -45,15 +46,16 @@ export const Item = ({
   const navigate = useNavigate();
   const create = useMutation(api.documents.create);
   const archive = useMutation(api.documents.archive);
+  const { t } = useTranslation();
 
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     if (!id) return;
     const promise = archive({ id }).then(() => navigate('/documents'));
     toast.promise(promise, {
-      loading: 'Moving to trash...',
-      success: 'Note moved to trash!',
-      error: 'Failed to archive note.',
+      loading: t('movingNote'),
+      success: t('noteMoved'),
+      error: t('failedMoveNote.'),
     });
   };
 
@@ -65,7 +67,7 @@ export const Item = ({
   const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     if (!id) return;
-    const promise = create({ title: 'Untitled', parentDocument: id }).then((documentId) => {
+    const promise = create({ title: t('untitled'), parentDocument: id }).then((documentId) => {
       if (!expanded) {
         onExpand?.();
       }
@@ -73,9 +75,9 @@ export const Item = ({
     });
 
     toast.promise(promise, {
-      loading: 'Creating a new note...',
-      success: 'New note created!',
-      error: 'Failed to create a new note.',
+      loading: t('creatingNote'),
+      success: t('noteCreated'),
+      error: t('failedCreateNote.'),
     });
   };
 
@@ -127,11 +129,11 @@ export const Item = ({
             <DropdownMenuContent className="w-60" align="start" side="right" forceMount>
               <DropdownMenuItem onClick={onArchive}>
                 <Trash className="h-4 w-4 mr-2" />
-                Delete
+                {t('delete')}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className="text-xs text-muted-foreground p-2">
-                Last edited by: {user?.fullName}
+                {`${t('lastEdited')}: ${user?.fullName}`}
               </div>
             </DropdownMenuContent>
           </DropdownMenu>

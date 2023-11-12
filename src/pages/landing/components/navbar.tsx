@@ -8,9 +8,12 @@ import { cn } from '@/lib/utils';
 
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LanguageToggle } from '@/components/language-toggle';
 
 export const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const { t } = useTranslation();
   const scrolled = useScrollTop();
 
   return (
@@ -27,23 +30,24 @@ export const Navbar = () => {
           <>
             <SignInButton mode="modal">
               <Button variant="ghost" size="sm">
-                Log in
+                {t('logIn')}
               </Button>
             </SignInButton>
             <SignInButton mode="modal">
-              <Button size="sm">Get JustNotion free</Button>
+              <Button size="sm">{t('getJfree')}</Button>
             </SignInButton>
           </>
         )}
         {isAuthenticated && !isLoading && (
           <>
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/documents">Enter JustNotion</Link>
+              <Link to="/documents">{t('accessJ')}</Link>
             </Button>
             <UserButton afterSignOutUrl="/" />
           </>
         )}
         <ModeToggle />
+        <LanguageToggle />
       </div>
     </div>
   );

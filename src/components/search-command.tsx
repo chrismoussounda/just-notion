@@ -14,12 +14,14 @@ import {
 import { useSearch } from '@/hooks/use-search';
 import { api } from '@/../convex/_generated/api';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const SearchCommand = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const documents = useQuery(api.documents.getSearch);
   const [isMounted, setIsMounted] = useState(false);
+  const { t } = useTranslation();
 
   const toggle = useSearch((store) => store.toggle);
   const isOpen = useSearch((store) => store.isOpen);
@@ -52,9 +54,9 @@ export const SearchCommand = () => {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder={`Search ${user?.fullName}'s JustNotion...`} />
+      <CommandInput placeholder={`${t('search')} ${user?.fullName}'s JustNotion...`} />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandEmpty>{t('noResult')}</CommandEmpty>
         <CommandGroup heading="Documents">
           {documents?.map((document) => (
             <CommandItem

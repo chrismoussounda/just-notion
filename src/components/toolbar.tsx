@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { api } from '@/../convex/_generated/api';
 
 import { IconPicker } from './icon-picker';
+import { useTranslation } from 'react-i18next';
 
 interface ToolbarProps {
   initialData: Doc<'documents'>;
@@ -19,6 +20,7 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
   const inputRef = useRef<ElementRef<'textarea'>>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(initialData.title);
+  const { t } = useTranslation();
 
   const update = useMutation(api.documents.update);
   const removeIcon = useMutation(api.documents.removeIcon);
@@ -41,7 +43,7 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
     setValue(value);
     update({
       id: initialData._id,
-      title: value || 'Untitled',
+      title: value || t('untitled'),
     });
   };
 
@@ -88,7 +90,7 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
           <IconPicker asChild onChange={onIconSelect}>
             <Button className="text-muted-foreground text-xs" variant="outline" size="sm">
               <Smile className="h-4 w-4 mr-2" />
-              Add icon
+              {t('addIcon')}
             </Button>
           </IconPicker>
         )}
@@ -100,7 +102,7 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
             size="sm"
           >
             <ImageIcon className="h-4 w-4 mr-2" />
-            Add cover
+            {t('addCover')}
           </Button>
         )}
       </div>

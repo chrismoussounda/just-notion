@@ -15,6 +15,7 @@ import { api } from '@/../convex/_generated/api';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface MenuProps {
   documentId: Id<'documents'>;
@@ -23,6 +24,7 @@ interface MenuProps {
 export const Menu = ({ documentId }: MenuProps) => {
   const navigate = useNavigate();
   const { user } = useUser();
+  const { t } = useTranslation();
 
   const archive = useMutation(api.documents.archive);
 
@@ -30,9 +32,9 @@ export const Menu = ({ documentId }: MenuProps) => {
     const promise = archive({ id: documentId });
 
     toast.promise(promise, {
-      loading: 'Moving to trash...',
-      success: 'Note moved to trash!',
-      error: 'Failed to archive note.',
+      loading: t('movingNote'),
+      success: t('noteMoved'),
+      error: t('failedMoveNote.'),
     });
 
     navigate('/documents');
@@ -48,10 +50,12 @@ export const Menu = ({ documentId }: MenuProps) => {
       <DropdownMenuContent className="w-60" align="end" alignOffset={8} forceMount>
         <DropdownMenuItem onClick={onArchive}>
           <Trash className="h-4 w-4 mr-2" />
-          Delete
+          {t('delete')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <div className="text-xs text-muted-foreground p-2">Last edited by: {user?.fullName}</div>
+        <div className="text-xs text-muted-foreground p-2">
+          {t('lastEdited')}: {user?.fullName}
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

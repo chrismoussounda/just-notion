@@ -26,7 +26,6 @@ const Editor = ({ onChange, initialContent, editable }: EditorProps) => {
     },
     uploadFile: handleUpload,
   });
-  console.log({ theme });
 
   const getTheme = () => {
     if (theme === 'system')
@@ -36,7 +35,7 @@ const Editor = ({ onChange, initialContent, editable }: EditorProps) => {
 
   return (
     <div>
-      <BlockNoteView editor={editor} theme={getTheme()} />
+      <BlockNoteView lang="fr" editor={editor} theme={getTheme()} />
     </div>
   );
 };

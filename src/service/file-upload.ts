@@ -8,9 +8,8 @@ export async function uploadFile(file: File) {
 }
 
 export async function deleteFile(url: string) {
-  const { error: storageError, data } = await supabase.storage
+  const { error: storageError } = await supabase.storage
     .from('images')
     .remove([url.split('images/').reverse()[0]]);
   if (storageError) throw new Error(storageError.message);
-  console.log(data);
 }

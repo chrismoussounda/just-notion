@@ -254,35 +254,6 @@ export const getById = query({
   },
 });
 
-export const getPublishedById = query({
-  args: { documentId: v.id('documents') },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    const document = await ctx.db.get(args.documentId);
-
-    if (!document) {
-      throw new Error('Not found');
-    }
-
-    if (document.isPublished && !document.isArchived) {
-      return document;
-    }
-
-    if (!identity) {
-      throw new Error('Not authenticated');
-    }
-
-    const userId = identity.subject;
-
-    if (document.userId !== userId) {
-      throw new Error('Unauthorized');
-    }
-
-    return document;
-  },
-});
-
 export const update = mutation({
   args: {
     id: v.id('documents'),

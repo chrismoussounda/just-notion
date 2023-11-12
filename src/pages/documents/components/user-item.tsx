@@ -9,16 +9,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useTranslation } from 'react-i18next';
 
 export const UserItem = () => {
   const { user } = useUser();
+  const { t } = useTranslation();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div
           role="button"
-          className="flex items-center text-sm p-3 w-full hover:bg-primary/5 justify-around"
+          className="flex items-center text-sm p-3 w-full hover:bg-primary/5 justify-between pr-7 "
         >
           <div className="gap-x-2 flex items-center">
             <Avatar className="h-5 w-5">
@@ -49,7 +51,7 @@ export const UserItem = () => {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild className="w-full cursor-pointer text-muted-foreground">
-          <SignOutButton>Log out</SignOutButton>
+          <SignOutButton>{t('logOut')}</SignOutButton>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

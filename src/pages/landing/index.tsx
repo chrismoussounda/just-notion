@@ -1,15 +1,9 @@
-import { useEffect } from 'react';
 import { Footer } from './components/footer';
 import { Heading } from './components/heading';
 import { Heroes } from './components/heroes';
 import { Navbar } from './components/navbar';
 
 const LandingPage = () => {
-  useEffect(() => {
-    return () => {
-      console.log('Unmounting L component');
-    };
-  }, []);
   return (
     <div className="h-full dark:bg-[#1F1F1F]">
       <Navbar />

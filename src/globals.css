@@ -81,3 +81,7 @@ body,
 #app {
   height: 100%;
 }
+
+.EmojiPickerReact * {
+  font-family: Poppins, sans-serif !important;
+}

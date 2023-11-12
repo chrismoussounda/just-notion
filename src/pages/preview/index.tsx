@@ -9,6 +9,7 @@ import Editor from '@/components/editor';
 import { useParams } from 'react-router-dom';
 import Redirect from '@/components/redirect-to-landing';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 const DocumentPreviewPage = () => {
   const { documentId } = useParams() as { documentId: Id<'documents'> };
@@ -16,6 +17,7 @@ const DocumentPreviewPage = () => {
     documentId: documentId,
     isPreview: true,
   });
+  const { t } = useTranslation();
 
   const update = useMutation(api.documents.update);
 
@@ -43,11 +45,11 @@ const DocumentPreviewPage = () => {
   }
 
   if (document === null) {
-    return <div>Not found</div>;
+    return <div>{t('notFound')}</div>;
   }
 
   if (document && !document.isPublished) {
-    toast.error('Document not published');
+    toast.error(t('Document not published'));
     return <Redirect />;
   }
 

@@ -5,21 +5,23 @@ import { api } from '@/../convex/_generated/api';
 import { useMutation } from 'convex/react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useUser();
+  const { t } = useTranslation();
   const create = useMutation(api.documents.create);
 
   const onCreate = () => {
-    const promise = create({ title: 'Untitled' }).then((documentId) =>
+    const promise = create({ title: t('untitled') }).then((documentId) =>
       navigate(`/documents/${documentId}`)
     );
 
     toast.promise(promise, {
-      loading: 'Creating a new note...',
-      success: 'New note created!',
-      error: 'Failed to create a new note.',
+      loading: t('creatingNote'),
+      success: t('noteCreated'),
+      error: t('failedCreateNote.'),
     });
   };
   return (
@@ -35,7 +37,7 @@ const Home = () => {
       <h2 className="text-lg font-medium">Welcome to {user?.firstName}&apos;s JustNotion</h2>
       <Button onClick={onCreate}>
         <PlusCircle className="h-4 w-4 mr-2" />
-        Create a note
+        {t('createNote')}
       </Button>
     </div>
   );

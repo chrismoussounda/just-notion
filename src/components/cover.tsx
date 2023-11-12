@@ -10,6 +10,7 @@ import { Id } from '@/../convex/_generated/dataModel';
 import { deleteFile } from '@/service/file-upload';
 import { useParams } from 'react-router-dom';
 import { useMutation } from 'convex/react';
+import { useTranslation } from 'react-i18next';
 
 interface CoverImageProps {
   url?: string;
@@ -20,6 +21,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
   const { documentId = '' } = useParams();
   const coverImage = useCoverImage();
   const removeCoverImage = useMutation(api.documents.removeCoverImage);
+  const { t } = useTranslation();
 
   const onRemove = async () => {
     if (url) {
@@ -48,7 +50,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
             size="sm"
           >
             <ImageIcon className="h-4 w-4 mr-2" />
-            Change cover
+            {t('changeCover')}
           </Button>
           <Button
             onClick={onRemove}
@@ -57,7 +59,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
             size="sm"
           >
             <X className="h-4 w-4 mr-2" />
-            Remove
+            {t('remove')}
           </Button>
         </div>
       )}

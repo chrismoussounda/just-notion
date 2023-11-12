@@ -9,12 +9,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useParams } from 'react-router-dom';
 import { ModalProvider } from '@/components/providers/modal-provider';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const DocumentPage = () => {
   const { documentId } = useParams() as { documentId: Id<'documents'> };
   const document = useQuery(api.documents.getById, {
     documentId: documentId,
   });
+  const { t } = useTranslation();
 
   const update = useMutation(api.documents.update);
 
@@ -42,7 +44,7 @@ const DocumentPage = () => {
   }
 
   if (document === null) {
-    return <div>Not found</div>;
+    return <div>{t('notFound')}</div>;
   }
 
   return (

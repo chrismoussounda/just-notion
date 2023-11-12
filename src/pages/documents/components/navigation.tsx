@@ -16,6 +16,7 @@ import { DocumentList } from './document-list';
 import { TrashBox } from './trash-box';
 import { Navbar } from './navbar';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const Navigation = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export const Navigation = () => {
   const pathname = useLocation().pathname;
   const isMobile = useMediaQuery('(max-width: 768px)');
   const create = useMutation(api.documents.create);
+  const { t } = useTranslation();
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<'aside'>>(null);
@@ -86,13 +88,13 @@ export const Navigation = () => {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: 'Untitled' }).then((documentId) =>
+    const promise = create({ title: t('untitled') }).then((documentId) =>
       navigate(`/documents/${documentId}`)
     );
     toast.promise(promise, {
-      loading: 'Creating a new note...',
-      success: 'New note created!',
-      error: 'Failed to create a new note.',
+      loading: t('creatingNote'),
+      success: t('noteCreated'),
+      error: t('failedCreateNote.'),
     });
   };
 
@@ -132,16 +134,16 @@ export const Navigation = () => {
         </div>
         <div>
           <UserItem />
-          <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
-          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
+          <Item label={t('search')} icon={Search} isSearch onClick={search.onOpen} />
+          <Item label={t('settings')} icon={Settings} onClick={settings.onOpen} />
+          <Item onClick={handleCreate} label={t('newPage')} icon={PlusCircle} />
         </div>
         <div className="mt-4">
           <DocumentList />
-          <Item onClick={handleCreate} icon={Plus} label="Add a page" />
+          <Item onClick={handleCreate} icon={Plus} label={t('addPage')} />
           <Popover>
             <PopoverTrigger className="w-full mt-4">
-              <Item label="Trash" icon={Trash} />
+              <Item label={t('trash')} icon={Trash} />
             </PopoverTrigger>
             <PopoverContent className="p-0 w-72" side={isMobile ? 'bottom' : 'right'}>
               <TrashBox />
@@ -157,7 +159,7 @@ export const Navigation = () => {
       <div
         ref={navbarRef}
         className={cn(
-          'absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]',
+          'absolute top-0 z-40 left-60 w-[calc(100%-240px)]',
           isResetting && 'transition-all ease-in-out duration-300',
           isMobile && 'left-0 w-full'
         )}
